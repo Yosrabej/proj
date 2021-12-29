@@ -1,0 +1,371 @@
+<html>
+<button
+type="button"
+class="btn btn-primary"
+style="margin-top:10px"
+data-bs-toggle="modal"
+data-bs-target="#exampleModal"
+id="target-one"
+(click)="getUsers()"
+>
+Créer un projet
+</button>
+
+
+<!-- Modal pour créer un projet-->
+<form [formGroup]="CreationForm" class="d-flex flex-column align-items-center">
+<!-- <div class="modal fade myModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <label class="modal-title" id="exampleModalLabel">Veuillez Remplir le formulaire</label>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+        <div  style="padding: 20px">
+          <input id="nom" name="nom" [(ngModel)]="nomProjet" formControlName="nom" minlength="4" required placeholder="Veuillez entrer le nom du projet" style="width:70%;border-radius: 5px;padding:10px;"/>
+        </div>
+
+          <div *ngIf="CreationForm.controls['nom'].invalid && CreationForm.controls['nom'].touched" class="text-danger" style="margin:0px 20px;">
+            Le champ nom est obligatoire.
+          </div>
+       
+        <ng-multiselect-dropdown
+        required
+       style="width:80%;margin:20px;"
+       [placeholder]="'Veuillez choisir les collaborateurs'"
+       [settings]="dropdownSettings1"
+       [data]="roleUsers"
+       [(ngModel)]="selectedCollab"
+       (click)="clickedOptionCollab()"
+       formControlName="collaborateurs">
+       </ng-multiselect-dropdown>
+       <div *ngIf="CreationForm.controls['collaborateurs'].invalid && CreationForm.controls['collaborateurs'].touched"  class="text-danger">
+        Vous devez choisir au moins un collaborateur.
+      </div>
+  
+        <ng-multiselect-dropdown
+        required
+        style="width:80%;margin:20px;"
+        [placeholder]="'Veuillez choisir le manager'"
+        [settings]="dropdownSettings"
+        [data]="roleManager"
+        [(ngModel)]="selectedManager"
+        (click)="  clickedOptionManager()"
+        formControlName="manager">
+        </ng-multiselect-dropdown>
+        <div *ngIf="CreationForm.controls['manager'].invalid && CreationForm.controls['manager'].touched"  class="text-danger">
+          Vous devez choisir un Manager.
+        </div>
+
+  
+        <ng-multiselect-dropdown
+        style="width:80%;margin:20px;"
+        [placeholder]="'Veuillez choisir le/les manager(s) de proximité'"
+        [settings]="dropdownSettings"
+        [data]="roleManagerProx"
+        [(ngModel)]="selectedManagerProx"
+        (click)="  clickedOptionManagerProx()"
+        formControlName="managerprox">
+        </ng-multiselect-dropdown>
+    
+        <label style="margin:0px 20px">La présence sur site est obligatoire ?</label>
+          <select  [(ngModel)]="selectedOption" formControlName="surSite"  style="width:30%;margin:0px 20px;" required>
+            <option value="oui">oui</option>
+            <option value="non">non</option>
+          </select>
+
+          <div *ngIf="CreationForm.controls['surSite'].invalid && CreationForm.controls['surSite'].touched" class="text-danger" >
+            Vous devez choisir si la présence sur site est obligatoire ou non.
+          </div>
+  
+      
+          <button style="width:20%;margin:20px;" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        <button type="button" style="width:20%;margin:5px 20px;" class="btn btn-primary" (click)="getProjectData()" [disabled]="CreationForm.invalid" data-bs-dismiss="modal">Enregistrer</button>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="modal fade myModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <label class="modal-title" id="exampleModalLabel">Veuillez Remplir le formulaire</label>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+
+       <div id="full-container">
+
+        <div>
+          <label for="nomProjet">Nom</label>
+          <input id="nom" name="nom" [(ngModel)]="nomProjet" formControlName="nom" minlength="4" />
+        </div>
+        <div *ngIf="CreationForm.controls['nom'].invalid && CreationForm.controls['nom'].touched" class="text-danger" style="margin:0px 20px;">
+          Le champ nom est obligatoire.
+        </div>
+    
+        <div>
+        <ng-multiselect-dropdown
+       [placeholder]="'Veuillez choisir les collaborateurs'"
+       [settings]="dropdownSettings1"
+       [data]="roleUsers"
+       [(ngModel)]="selectedCollab"
+       (click)="clickedOptionCollab()"
+       formControlName="collaborateurs">
+       </ng-multiselect-dropdown>
+      </div>
+      <div *ngIf="CreationForm.controls['collaborateurs'].invalid && CreationForm.controls['collaborateurs'].touched"  class="text-danger">
+        Vous devez choisir au moins un collaborateur.
+      </div>
+
+
+  
+      <div>
+        <ng-multiselect-dropdown
+        [placeholder]="'Veuillez choisir le manager'"
+        [settings]="dropdownSettings"
+        [data]="roleManager"
+        [(ngModel)]="selectedManager"
+        (click)="  clickedOptionManager()"
+        formControlName="manager">
+        </ng-multiselect-dropdown>
+      </div>
+            <div *ngIf="CreationForm.controls['manager'].invalid && CreationForm.controls['manager'].touched"  class="text-danger">
+          Vous devez choisir un Manager.
+        </div>
+
+
+      <div>
+          <ng-multiselect-dropdown
+          [placeholder]="'Veuillez choisir le/les manager(s) de proximité'"
+          [settings]="dropdownSettings"
+          [data]="roleManagerProx"
+          [(ngModel)]="selectedManagerProx" 
+          formControlName="managerprox"
+          (click)="clickedOptionManagerProx()">
+          </ng-multiselect-dropdown>
+        </div>
+
+
+        <div style="display:flex;flex-direction: row;">
+        <label  style="margin-top:20px;margin-right:10px" >La présence sur site est obligatoire ?</label>
+         <div>
+        <select  [(ngModel)]="selectedOption" formControlName="surSite"  required id="select-create">
+          <option value="oui">oui</option>
+          <option value="non">non</option>
+        </select>
+      </div>
+        </div>
+        <div *ngIf="CreationForm.controls['surSite'].invalid && CreationForm.controls['surSite'].touched" class="text-danger" >
+          Vous devez choisir si la présence sur site est obligatoire ou non.
+        </div>
+
+      </div>
+       
+        <div class="container-modal" >
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"  (click)="resetForm()">Fermer</button>
+        <button type="button" class="btn btn-primary" (click)="getProjectData()" [disabled]="CreationForm.invalid"  data-bs-dismiss="modal">Enregistrer</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</form>
+  <!-- Modal pour modifier un projet-->
+<div class="modal fade myModal" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <label class="modal-title" id="exampleModalLabel">Veuillez Modifier les informations du projet</label>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+
+       <div id="full-container">
+
+        <div>
+          <label for="nomProjet">Nom</label>
+          <input id="nomProjet" name="nomProjet" [(ngModel)]="nomProjet" style="border-radius: 3px;border:groove 2px purple;height:40px;width:350px;" value="{{nomProjet}}"/>
+        </div>
+
+    
+        <div>
+        <ng-multiselect-dropdown
+       [placeholder]="'Veuillez choisir les collaborateurs'"
+       [settings]="dropdownSettings1"
+       [data]="roleUsers"
+       [(ngModel)]="selectedCollab"
+       (click)="clickedOptionCollab()">
+       </ng-multiselect-dropdown>
+      </div>
+  
+      <div>
+        <ng-multiselect-dropdown
+        [placeholder]="'Veuillez choisir le manager'"
+        [settings]="dropdownSettings"
+        [data]="roleManager"
+        [(ngModel)]="selectedManager"
+        (click)="  clickedOptionManager()">
+        </ng-multiselect-dropdown>
+      </div>
+          
+      <div>
+          <ng-multiselect-dropdown
+          [placeholder]="'Veuillez choisir le/les manager(s) de proximité'"
+          [settings]="dropdownSettings"
+          [data]="roleManagerProx"
+          [(ngModel)]="selectedManagerProx" 
+          (click)="  clickedOptionManagerProx()">
+          </ng-multiselect-dropdown>
+        </div>
+
+
+        <div style="display:flex;flex-direction: row;">
+        <label  style="margin-top:20px;margin-right:10px" >La présence sur site est obligatoire ?</label>
+
+        <div *ngIf="selectedOption == 'oui'">
+          <select  [(ngModel)]="selectedOption">
+            <option selected value="oui">oui</option>
+            <option value="non">non</option>
+          </select>
+        </div>
+
+        <div *ngIf="selectedOption == 'non'">
+          <select [(ngModel)]="selectedOption">
+            <option value="oui">oui</option>
+            <option  selected value="non">non</option>
+          </select>
+        </div>
+        </div>
+
+
+      </div>
+        <div class="container-modal" >
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetForm()">Fermer</button>
+          <button type="button" class="btn btn-primary" (click)="updateProject()"  data-bs-dismiss="modal">Enregistrer</button>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+
+    <!-- Modal pour supprimer un projet-->
+<div class="modal fade myModal" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <label class="modal-title" id="exampleModalLabel">Etes-vous sûr de vouloir supprimer ce projet ? </label>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="container-modal-confirm" >
+      <button  type="button" class="btn btn-secondary" >Annuler</button>
+      <button type="button" class="btn btn-primary" (click)="deleteProject()" data-bs-dismiss="modal">Supprimer</button>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 
+// -->
+
+
+<section class="ftco-section mb-4">
+  <div class="container">
+    <div class="row justify-content-center">
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h4 class="text-center mb-4">Liste des projets</h4>
+        <div style="display:flex;flex-direction: column;align-items: center;">
+          <input class="input-group mb-3" style="width:300px;height:40px;border-radius: 3px;border:groove 2px purple" type="text" name="searchValue" [(ngModel)]="searchValue" value="searchValue" placeholder="Faire votre recherche ici...">
+          <div style="display:flex;flex-direction: row;justify-content: center;margin:20px 0px;">
+          <a [routerLink]="['/component/projet']" [queryParams]="{search: searchValue}">
+            <button type="button" style="margin-left:20px;border-radius: 3px;width:100px;" class="btn btn-primary" (click)=" searchProjects()">Chercher</button>
+          </a>
+          <a [routerLink]="['/component/projet']">
+            <button type="button" style="margin-left:20px;border-radius: 3px;width:150px;" class="btn btn-primary" (click)="resetInput()">Voir liste entière</button>
+          </a>
+        </div>
+          </div>
+        <div class="table-wrap">
+          <table class="table">
+            <thead class="thead-primary">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Présence obligatoire?</th>
+                <th scope="col">Modifier un Projet</th>
+                <th scope="col">Effacer un Projet</th>
+              </tr>
+            </thead>
+            <tbody>
+           
+  
+              <tr *ngFor="let project of projectPagination | paginate: { itemsPerPage: 5, currentPage: p }">
+                <th >{{ project.id }}</th>
+                <td>{{ project.nom }}</td>
+               
+          <td>{{project.surSite}}</td>
+        
+                <td><button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal2"
+                    id="target-one"
+                    (click)="findProjectById(project.id)"
+                    (click)="getUsers()"
+                    >
+                    Modifier
+                    </button></td>
+                    <td><button
+                      type="button"
+                      class="btn btn-primary"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal3"
+                      id="target-one"
+                      (click)="findProjectById(project.id)"
+                      >
+                      Effacer
+                      </button></td>
+                      
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div *ngIf = "urlCheck == true" >
+<div style="display:flex;flex-direction: row;justify-content:center">
+  <div style="margin-left: 50px" *ngFor='let in of counter() ;let i = index'>
+    <div *ngIf= "i+1 == 1">
+      <a [routerLink]="['/component/projet']" click="showfirstpage()">
+      <button class="btn btn-primary" (change)="selectedPage()" (click)="showFirstPages()" ng-click="actualPage = i+1">{{i+1}}</button>
+    </a>
+  </div> 
+     <div *ngIf= "i+1 !== 1">
+      <a  [routerLink]="['/component/projet']" [queryParams]="{page: i+1}" >
+        <button class="btn btn-primary" (change)="selectedPage()" click="intermediate()" ng-click="actualPage = i+1">{{i+1}}</button>
+      </a>
+    </div>
+  </div>
+  </div>
+  </div>
+
+  <div *ngIf = "urlCheck == false" style="margin-left:400px;width:50%">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+
+<!--  -->
+  </html>
+

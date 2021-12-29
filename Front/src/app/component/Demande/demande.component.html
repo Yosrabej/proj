@@ -1,0 +1,64 @@
+<br>
+<br>
+<h2 class="conatiner">Publier une demande de travail en remote</h2>
+<br>
+<form [formGroup]="addDemandeForm" (ngSubmit)="addDemande()">
+
+  <div class="form-group">
+    <label for="inputAddress">Date de début</label>
+    <input type="date" class="form-control" formControlName="DateDebut"   min={{dateDebutFix}} required >
+    <small [hidden]="addDemandeForm.controls.DateDebut.valid || addDemandeForm.controls.DateDebut.untouched"
+    class="text-danger" translate>
+   Ce champs est obligatoire!
+ </small>
+  </div>
+
+  <br><br>
+  <div class="form-group">
+    <label for="inputAddress2">Date de fin</label>
+    <input type="date" id="birthday" name="birthday" class="form-control" formControlName="DateFin"  [min]="todayDate"  required>
+    <small [hidden]="addDemandeForm.controls.DateFin.valid || addDemandeForm.controls.DateFin.untouched"
+    class="text-danger" translate>
+   Ce champs est obligatoire!
+ </small>
+  </div>
+  <br><br>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputCity">Raison</label>
+      <input [class.is-invalid]="addDemandeForm.get('raison').invalid && addDemandeForm.get('raison').touched" type="text" class="form-control" id="inputCity" placeholder="Raison" formControlName="raison"  required>
+      <small [hidden]="addDemandeForm.controls.raison.valid || addDemandeForm.controls.raison.untouched"
+			class="text-danger" translate>
+	   Ce champs est obligatoire!
+	 </small>
+    </div>
+    </div>
+    <br><br>
+  
+    <div class="form-group col-md-6">
+      <label for="inputCity">Adresse</label>
+      <input  [class.is-invalid]="addDemandeForm.get('adresse').invalid && addDemandeForm.get('adresse').touched" type="text" class="form-control" id="inputCity" placeholder="Adresse" formControlName="adresse" required>
+      <small [hidden]="addDemandeForm.controls.adresse.valid || addDemandeForm.controls.adresse.untouched"
+                       class="text-danger" translate>
+                       Ce champs est obligatoire!
+                </small>
+      
+    </div>
+  
+<br><br>
+  <div class="form-group col-md-4">
+    <label for="inputState">Projet</label>
+    <select (change)="read()" [(ngModel)]="selectedProject" [class.is-invalid]="addDemandeForm.get('projet').invalid && addDemandeForm.get('projet').touched"  id="inputState" class="form-control"  formControlName="projet" required >
+      <option  *ngFor='let a of projet' value={{a.id}}>{{a.nom}}</option>
+    </select>
+    <small [hidden]="addDemandeForm.controls.projet.valid || addDemandeForm.controls.projet.untouched"
+                       class="text-danger" translate>
+                       Ce champs est obligatoire!
+                </small>
+  </div>
+  <br>
+  <button type="submit" class="btn btn-primary" [disabled]="addDemandeForm.invalid ">Publier</button>
+  
+</form>
+

@@ -1,0 +1,43 @@
+<body>
+
+<div class="container">
+	<!-- code here -->
+	<div class="card">
+		<div class="card-image">	
+			<h2 class="card-heading">
+				TALAN REMOTE
+                <br /> <br />
+				<small>Veuillez saisir vos identifiants</small>
+			</h2>
+		</div>
+		<form class="card-form" (ngSubmit)="login()" [formGroup]="loginForm" novalidate>
+			<div class="input">
+				<input type="text" class="input-field" value="" required formControlName="username"/>
+				<label class="input-label">Nom d'utilisateur</label>
+			</div>
+			<small [hidden]="loginForm.controls.username.valid || loginForm.controls.username.untouched"
+			class="text-danger" translate>
+	   Identifiant obligatoire!
+	 </small>
+						
+						<div class="input">
+				<input type="password" class="input-field" required formControlName="password"/>
+				<label class="input-label">Mot de passe</label>
+			</div>
+			<small [hidden]="loginForm.controls.password.valid || loginForm.controls.password.untouched"
+                       class="text-danger" translate>
+                  Mot de passe obligatoire!
+                </small>
+            <br /> <br />
+			<div class="action">
+				<button class="action-button" type="submit" [disabled]="loginForm.invalid || isLoading">Connexion</button>
+			</div>
+            <br />
+		</form>
+		<div class="card-info">
+			<p>COPYRIGHT - TOUS DROITS RESERVES <a href="https://talan.com/">TALAN</a> 2021 </p>
+		</div>
+	</div>
+</div>
+
+</body>

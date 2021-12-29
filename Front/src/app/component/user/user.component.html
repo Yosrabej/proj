@@ -1,0 +1,195 @@
+
+ <!-- Modal pour supprimer un utilisateur-->
+ <div class="modal fade myModal" id="exampleModal5" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <label>Etes-vous sûr de vouloir supprimer l'utilisateur {{nom}} {{prenom}} ? </label>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="container-modal-password" >
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+      <button type="button" class="btn btn-primary" (click)="deleteUser()" data-bs-dismiss="modal">Supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+ <!-- Modal pour modifier les informations d'un utilisateur-->
+ <div class="modal fade myModal" id="exampleModal6" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="display:flex;flex-direction: column;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Veuillez modifier les champs de l'utilisateur {{nom}} {{prenom}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+       
+      <div id="container-modal6" style="display:flex;flex-direction: column;align-items: center;">
+
+      <div>
+        <label for="nom" >Nom</label>
+        <input [(ngModel)]="nom" id="nom" name="nom"  />
+      </div>
+
+      <div>
+        <label for="prenom">Prénom</label>
+        <input id="prenom" name="prenom" [(ngModel)]="prenom"/>
+      </div>
+
+      <div >
+        <label for="email">Email</label>
+        <input id="email" name="email"  [(ngModel)]="email"/>
+      </div>
+
+      <div style="display:flex;flex-direction: row;">
+      <label for="role">Role</label>
+      <select id="role" class="form-select" [(ngModel)]="role" style="width:200px">
+        <option value="ROLE_ADMIN" >ROLE_ADMIN</option>
+        <option value="ROLE_MANAGER">ROLE_MANAGER</option>
+        <option value="ROLE_MANAGERPROX">ROLE_MANAGERPROX</option>
+        <option value="ROLE_USER">ROLE_USER</option>
+        </select>
+      </div>
+       
+
+      <div style="display:flex;flex-direction: row;">
+        <label for="disabledSelect" class="form-label">Type de contrat</label>
+       <select id="disabledSelect" class="form-select" [(ngModel)]="contrat" style="width:200px">
+       <option value="true">Contrat</option>
+       <option value="false">Intercontrat</option>
+      </select>
+      </div>
+
+    </div>
+
+      <div class="container-modal-password" >
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+
+      <div *ngIf='nom  == "" ||  email=="" '>
+        <button type="button" class="btn btn-primary" (click)="updateUser()" data-bs-dismiss="modal" disabled>Sauvegarder</button>
+      </div>
+
+      <div *ngIf='nom  !== "" &&  email !=="" '>
+        <button type="button" class="btn btn-primary" (click)="updateUser()" data-bs-dismiss="modal">Sauvegarder</button>
+      </div>
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 
+// -->
+
+<div *ngIf = "alert == true">
+<div class="alert alert-success" role="alert">
+  Le mot de passe a bien été rénitialisé !
+</div>
+</div>
+
+<section class="ftco-section mb-4">
+  <div class="container">
+    <div class="row justify-content-center">
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h4 class="text-center mb-4">Liste des utilisateurs chez Talan</h4>
+        <div style="display:flex;flex-direction: column;align-items: center;">
+        <input class="input-group mb-3" style="width:300px;height:40px;border-radius: 3px;border:groove 2px purple" type="text" name="searchValue" [(ngModel)]="searchValue" value="searchValue" placeholder="Faire votre recherche ici...">
+        <div style="display:flex;flex-direction: row;justify-content: center;margin:20px 0px;">
+        <a [routerLink]="['/component/user']" [queryParams]="{search: searchValue}">
+          <button type="button" style="margin-left:20px;border-radius: 3px;width:100px;" class="btn btn-primary" (click)=" searchUsers()">Chercher</button>
+        </a>
+        <a [routerLink]="['/component/user']">
+          <button type="button" style="margin-left:20px;border-radius: 3px;width:150px;" class="btn btn-primary" (click)="resetInput()">Voir liste entière</button>
+        </a>
+      </div>
+        </div>
+        <div class="table-wrap">
+          <table class="table">
+            <thead class="thead-primary">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Email</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Supprimer</th>
+                <th scope="col">Modifier</th>
+                <th scope="col">Réinitialiser mot de passe</th>
+              </tr>
+            </thead>
+            <tbody>
+           
+  
+              <tr *ngFor="let user of projectPagination | paginate: { itemsPerPage: 5, currentPage: p }">
+                <th >{{ user.id }}</th>
+                <td>{{ user.username }}</td>
+                <td>{{ user.nom }}</td>
+                <td>{{ user.prenom }}</td>
+                <td><button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal5"
+                  id="target-one"
+                  (click)="getUser(user.id)"
+                  >
+                  Supprimer
+                  </button></td>
+                  <td><button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal6"
+                    id="target-one"
+                    (click)="getUser(user.id)"
+                    >
+                    Modifier
+                    </button></td>
+
+                    <td><button
+                      type="button"
+                      class="btn btn-primary"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal8"
+                      id="target-one"
+                      (click)="resetPassUser(user.id)"
+                      >
+                      Réinitialiser
+                      </button></td>
+                      
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div *ngIf = "urlCheck == true">
+<div style="display:flex;flex-direction: row;justify-content:center">
+  <div style="margin-left: 50px" *ngFor='let in of counter() ;let i = index'>
+    <div *ngIf= "i+1 == 1">
+      <a [routerLink]="['/component/user']" click="showfirstpage()">
+      <button class="btn btn-primary" (change)="selectedPage()" (click)="showFirstPages()" ng-click="actualPage = i+1">{{i+1}}</button>
+    </a>
+  </div> 
+     <div *ngIf= "i+1 !== 1">
+      <a  [routerLink]="['/component/user']" [queryParams]="{page: i+1}" >
+        <button class="btn btn-primary" (change)="selectedPage()" click="intermediate()" ng-click="actualPage = i+1">{{i+1}}</button>
+      </a>
+    </div>
+  </div>
+  </div>
+</div>
+
+
+<div *ngIf = "urlCheck == false" style="margin-left:400px;width:50%">
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+<!--  -->

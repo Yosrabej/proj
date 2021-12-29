@@ -1,0 +1,116 @@
+<br>
+<br>
+<h2 class="container">Formulaire d'enregistrement </h2>
+<br>
+<form  [formGroup]="addRegistreForm" (ngSubmit)="addRegistre()" novalidate>
+  
+    <div class="form-group">
+      <label  for="inputAddress">Nom</label>
+      <input  type="text" id="birthday" name="birthday" class="form-control"  placeholder="Nom" formControlName="nom" required>
+      <small [hidden]="addRegistreForm.controls.nom.valid || addRegistreForm.controls.nom.untouched" class="text-danger" translate>
+        Ce champs est obligatoire!
+              <div *ngIf="addRegistreForm.get('nom').errors?.maxlength" class="text-danger">
+                Prénome doit être inférieure à 10 caractères!!
+              </div>   
+     </small>
+ 
+
+ 
+    </div>
+
+
+
+    <br><br>
+
+
+    <div class="form-group">
+      <label for="inputAddress2">Prenom</label>
+      <input type="text" id="birthday" name="birthday" class="form-control" placeholder="Prenom"  formControlName="prenom" required>
+      <small [hidden]="addRegistreForm.controls.prenom.valid || addRegistreForm.controls.prenom.untouched"
+    class="text-danger" translate>
+   Ce champs est obligatoire!
+   <div *ngIf="addRegistreForm.get('prenom').errors?.maxlength" class="text-danger">
+    Prénome doit être inférieure à 20 caractères!!
+  </div> 
+ </small>
+ 
+
+    </div>
+
+    <br><br>
+
+    <div class="form-row">
+      <div class="form-group">
+          <label for="inputAddress">Email</label>
+          <input required email type="email" id="birthday" name="birthday" class="form-control"  placeholder="Email" formControlName="email" >
+          <span class="text-danger" *ngIf="addRegistreForm.get('email').errors &&  addRegistreForm.get('email').errors.required && addRegistreForm.get('email').touched">
+ Ce champs est obligatoire!
+ 
+</span>
+<span class="text-danger" *ngIf="addRegistreForm.get('email').errors && addRegistreForm.get('email').errors.email && addRegistreForm.get('email').touched">
+  Ce champs est invalide!
+ </span>
+        </div>
+
+
+
+          <br><br>
+
+
+          <div class="form-group">
+            <label for="inputAddress">Mot de passe</label>
+            <input   type="password" id="birthday" name="birthday" class="form-control"  placeholder="Mot de passe" formControlName="password" required >
+            <small [hidden]="addRegistreForm.controls.password.valid || addRegistreForm.controls.password.untouched"
+            class="text-danger" translate>Ce champs est obligatoire! </small>
+
+          <div *ngIf="addRegistreForm.get('password').errors?.minlength" class="text-danger">
+            Mot de passe doit être supérirur à 6 caractères!!
+          </div> 
+          </div>
+
+
+          <br><br>
+
+
+
+
+          
+
+          <div class="mb-3">
+            <label for="disabledSelect" class="form-label">Roles</label>
+            <select id="disabledSelect" class="form-select" formControlName="roles"  required>
+              <option >ROLE_ADMIN</option>
+              <option >ROLE_MANAGER</option>
+              <option >ROLE_MANAGERPROX</option>
+              <option >ROLE_USER</option>
+            </select>
+            <small [hidden]="addRegistreForm.controls.roles.valid || addRegistreForm.controls.roles.untouched"
+    class="text-danger" translate>
+   Ce champs est obligatoire!
+ </small>
+          </div>
+
+
+          <br><br>
+         
+
+
+          <div class="mb-3">
+            <label  for="disabledSelect" class="form-label">Type de contrat</label>
+            <select id="disabledSelect" class="form-select" formControlName="typecontrat"  required>
+              <option>Contart</option>
+              <option>Intercontrat</option>
+             
+            </select>
+            <small [hidden]="addRegistreForm.controls.typecontrat.valid || addRegistreForm.controls.typecontrat.untouched" class="text-danger" translate>
+               Ce champs est obligatoire! </small>
+          </div>
+     
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" [disabled]="addRegistreForm.invalid ">Publier</button>
+    
+  </form>
+
+
+  

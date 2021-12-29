@@ -1,0 +1,61 @@
+<br>
+<br>
+<h2 class="conatiner">Historique des  demande de travail en remote</h2>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="search-hero">
+      <input type="text" name="search" [(ngModel)]="searchText" placeholder="Chercher....">
+  </div>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Iduser</th>
+        <th scope="col">Date de début</th>
+        <th scope="col">Date de fin</th>
+        <th scope="col">Raison</th>
+        <th scope="col">Adresse</th>
+        <th scope="col">Statut</th>
+        <th scope="col">Détails</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let key of historique  | filter:searchText | paginate: { itemsPerPage: 5, currentPage: p }">
+        <td>{{ key.id }}</td>
+        <td>{{ key.iduser }}</td>
+     
+        <td>{{ latest_date | date :'dd-MM-yyyy'}}</td>
+        <td>{{ latest_date_fin  | date :'dd-MM-yyyy'}}</td>
+        <td>{{ key.raison }}</td>
+        <td>{{ key.adresse }}</td>
+        <td>{{ status1 | json }}</td>
+        <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="showId(key.id , key.status)">
+         Détails
+        </button>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Bonjour, {{ name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Votre demande est  :  <strong>{{myStatus}}</strong>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </td>
+      </tr>
+      
+    </tbody>
+  </table>
+  <div class="conatiner">
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>

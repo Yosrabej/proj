@@ -1,0 +1,94 @@
+framework:
+    workflows:
+        remote:
+            type: 'workflow'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'multiple_state'
+                arguments: 
+                    - 'status'
+            supports:
+                - App\Entity\Demande
+            initial_marking: nonPassée
+            places:
+                - nonPassée
+                - managerP_pending
+                - managerE_pending
+                - refused
+                - refusedA
+                - managerProx_ok
+                - managerE_ok
+                - validated
+            transitions:
+                to_automatically_refuse:
+                    from: nonPassée
+                    to:   refusedA
+                to_pending:
+                    from: nonPassée
+                    to:   [managerP_pending, managerE_pending]
+
+                to_pending_oneManager:
+                    from: nonPassée
+                    to:   managerE_pending
+                to_refuse_oneManager:
+                    from: managerE_pending
+                    to: refused
+                to_validate_oneManager:
+                    from: managerE_pending
+                    to: validated
+                to_cancelvalidation_oneManager:
+                    from: validated
+                    to: managerE_pending
+                to_cancelrefuse_oneManager:
+                    from: refused
+                    to: managerE_pending        
+                            
+                to_refuse:
+                    from: [managerP_pending, managerE_pending]
+                    to: refused
+                to_refuse_E:
+                    from: [managerProx_ok, managerE_pending]
+                    to: refused
+                to_refuse_P:
+                    from: [managerP_pending, managerE_ok]
+                    to: refused        
+                to_managerProx_ok:
+                    from: managerP_pending
+                    to: managerProx_ok
+                to_managerE_ok:
+                    from: managerE_pending
+                    to: managerE_ok
+                to_validate:
+                    from: [managerProx_ok, managerE_ok]
+                    to:   validated
+                to_validateE:
+                    from: [managerProx_ok, managerE_pending]
+                    to:   validated
+                to_validateP:
+                    from: [managerP_pending, managerE_ok]
+                    to:   validated     
+
+                to_cancel_validationE:
+                    from: [managerP_pending, managerE_ok]
+                    to:   [managerP_pending, managerE_pending]
+                to_cancel_validationP:
+                    from: [managerProx_ok, managerE_pending]
+                    to:   [managerP_pending, managerE_pending]
+                to_cancel_validationP2:
+                    from: validated
+                    to:   [managerP_pending, managerE_ok]
+                to_cancel_validationE2:
+                    from: validated
+                    to:   [managerProx_ok, managerE_pending]
+
+                to_cancel_refusedE:
+                    from: refused
+                    to:   [managerProx_ok, managerE_pending]
+                to_cancel_refusedP:
+                    from: refused
+                    to:   [managerP_pending, managerE_ok]
+                to_cancel_refused:
+                    from: refused
+                    to:   [managerP_pending, managerE_pending]               
+                      
